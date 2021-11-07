@@ -11,9 +11,8 @@ server.serve()
 
 
 while(True):    
-    print('---------Menu---------')
-    print('0. Quit the program')
-    choise = int(input('Enter your choise:'))
+    print('Welcome to server')
+    choise = int(input('Enter 0 to stop:'))
     if (choise == 0):
         print('bye')
         break

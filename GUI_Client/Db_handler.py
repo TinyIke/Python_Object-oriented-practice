@@ -1,8 +1,11 @@
 import pickle
 import Employee
 import json
-        
+
+
+
 class Db_handler():
+    Massages = ''
     def __init__(self, client):
         self.client = client
         try:
@@ -19,14 +22,11 @@ class Db_handler():
             file.close()
         except:
             print('Error within saving!!')
-        
-
-    
             
     def Check_if_exist(self,target_ID):
         self.client.send_command('check_if_exist', {'employee_id': target_ID})
         self.client.wait_response()
-        #print(self.client.reply_msg)
+        print(self.client.reply_msg)
         return self.client.reply_msg['parameter']['exist_flag']
 
     def add_modify_employee(self,name,id,type,num_a,num_b):
@@ -63,8 +63,16 @@ class Db_handler():
             print(self.reply_msg)
         else:
             print('ID not exist!')
+
     def list_all_employee(self):
+        global Massages 
+        self.Massages = ''
         self.client.send_command('list_all_employee',{})
         self.client.wait_response()
+        #print(self.client.reply_msg)
         for id in self.client.reply_msg['parameter']['employ_list']:
             self.look_up_employee(id)
+            self.reply_msg = "{}".format(self.client.reply_msg['parameter']['information'])
+            #print(self.reply_msg)
+            self.Massages = self.Massages + self.reply_msg + '\n'
+        print(self.Massages)
